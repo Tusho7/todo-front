@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface User {
   _id: string;
@@ -32,10 +33,14 @@ const Dashboard = () => {
         });
         setUsers(response.data);
       } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error fetching users. Please try again later.",
+        });
         console.error("Error fetching users:", error);
       }
     };
-
     fetchUsers();
   }, []);
 
@@ -50,20 +55,29 @@ const Dashboard = () => {
           },
         }
       );
-      navigate("/tasks");
-      console.log("Resource created:", response.data);
+      if (response.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: "Task Created",
+          text: "The task has been created successfully!",
+        });
+        navigate("/all-tasks");
+      }
     } catch (error) {
       if ((error as AxiosError).response) {
-        console.error(
-          "Error creating resource:",
-          (error as AxiosError)?.response?.status ?? "Unknown",
-          (error as AxiosError)?.response?.data
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `Error creating resource: ${
+            (error as AxiosError)?.response?.data?.message || "Unknown error"
+          }`,
+        });
       } else {
-        console.error(
-          "Error creating resource:",
-          (error as AxiosError).message
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `Error creating resource: ${(error as AxiosError).message}`,
+        });
       }
     }
   };
@@ -76,22 +90,23 @@ const Dashboard = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
   const seeTasks = () => {
-    navigate("/tasks");
+    navigate("/all-tasks");
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
       <div className="max-w-md w-full bg-white shadow-md rounded-md p-8">
-        <h1 className="text-3xl font-semibold mb-6">Dashboard</h1>
+        <h1 className="text-3xl font-semibold mb-6">Create Task Page</h1>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Resource Name
+            Task Name Title
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
-            placeholder="Enter resource name"
+            placeholder="Enter task title"
             name="name"
             value={resourceData.name}
             onChange={handleChange}
@@ -99,7 +114,7 @@ const Dashboard = () => {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Description
+            Task Description
           </label>
           <textarea
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -132,7 +147,7 @@ const Dashboard = () => {
             onClick={createResource}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
-            Create Resource
+            Create Task
           </button>
           <button
             onClick={seeTasks}
