@@ -2,17 +2,8 @@ import { useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
-interface User {
-  _id: string;
-  username: string;
-}
-
-interface ResourceData {
-  name: string;
-  description: string;
-  assignee: string;
-}
+import { User } from "../types/user";
+import { ResourceData } from "../types/resourceData";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -94,10 +85,13 @@ const Dashboard = () => {
   const seeTasks = () => {
     navigate("/all-tasks");
   };
+  const seeUsers = () => {
+    navigate("/all-users");
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
-      <div className="max-w-md w-full bg-white shadow-md rounded-md p-8">
+    <div className="min-h-screen bg-gray-300 flex flex-col justify-center items-center">
+      <div className="max-w-lg w-full bg-white shadow-md rounded-md p-8">
         <h1 className="text-3xl font-semibold mb-6">Create Task Page</h1>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -113,11 +107,11 @@ const Dashboard = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-gray-700 text-sm font-bold mb-2 ">
             Task Description
           </label>
           <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
             placeholder="Enter description"
             name="description"
             value={resourceData.description}
@@ -142,7 +136,7 @@ const Dashboard = () => {
             ))}
           </select>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="grid grid-cols-2 gap-10">
           <button
             onClick={createResource}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -154,6 +148,12 @@ const Dashboard = () => {
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
             See Tasks
+          </button>
+          <button
+            onClick={seeUsers}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+          >
+            See Users
           </button>
           <button
             onClick={logout}

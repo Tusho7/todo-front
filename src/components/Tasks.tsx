@@ -50,7 +50,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-gray-300  flex flex-col justify-center items-center">
       <div className="max-w-3xl w-full bg-white shadow-md rounded-md p-8">
         <h1 className="text-3xl font-semibold mb-6">My Tasks</h1>
         <div className="mb-6">

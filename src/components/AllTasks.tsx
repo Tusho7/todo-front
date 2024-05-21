@@ -172,17 +172,21 @@ const AllTasks = () => {
     navigate("/login");
   };
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-gray-300 flex flex-col justify-center items-center">
       <div className="max-w-3xl w-full bg-white shadow-md rounded-md p-8">
         <h1 className="text-3xl font-semibold mb-6">All Tasks</h1>
         <div className="mb-6">
           <ul>
             {tasks.map((task) => (
               <li key={task._id} className="mb-4">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-wrap justify-start gap-7 lg:justify-between items-center">
                   <div>
-                    <h2 className="text-xl font-semibold">{task.name}</h2>
-                    <p className="text-gray-600">{task.description}</p>
+                    <h2 className="text-xl font-semibold">
+                      Task Title: {task.name}
+                    </h2>
+                    <p className="text-gray-600">
+                      Task Description: {task.description}
+                    </p>
                   </div>
 
                   <div className="flex items-center space-x-2">
