@@ -41,7 +41,6 @@ const AllTasks = () => {
     fetchUsers();
     fetchTasks();
   }, []);
-  console.log(tasks);
   const addTaskAssignee = async (taskId: string, assigneeId: string) => {
     try {
       await axios.patch(

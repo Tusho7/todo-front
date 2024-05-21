@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Task } from "../types/task";
+import Swal from "sweetalert2";
 
 const Tasks = () => {
   const navigate = useNavigate();
@@ -56,8 +57,58 @@ const Tasks = () => {
           task._id === taskId ? { ...task, completed: true } : task
         )
       );
+      Swal.fire({
+        icon: "success",
+        title: "Task Completed!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.error("Error completing task:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error completing task!",
+      });
+    }
+  };
+
+  const handleTaskUncompletion = async (taskId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      await axios.patch(
+        `http://localhost:5000/resources/${taskId}/uncomplete`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task._id === taskId ? { ...task, completed: false } : task
+        )
+      );
+      Swal.fire({
+        icon: "success",
+        title: "Task Marked as Uncompleted!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error("Error marking task as uncompleted:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error marking task as uncompleted!",
+      });
     }
   };
 
@@ -80,13 +131,13 @@ const Tasks = () => {
         <section className="flex justify-between items-center">
           <h1 className="text-3xl font-semibold mb-6">My Tasks</h1>
           <h1
-            className="text-3xl font-semibold mb-6"
+            className="text-3xl font-semibold mb-6 cursor-pointer"
             onClick={navigateComplete}
           >
             Completed tasks
           </h1>
           <h1
-            className="text-3xl font-semibold mb-6"
+            className="text-3xl font-semibold mb-6 cursor-pointer"
             onClick={navigateUnfulfilled}
           >
             Unfulfilled Tasks
@@ -121,9 +172,18 @@ const Tasks = () => {
                         </button>
                       )}
                       {task.completed && (
-                        <p className="text-green-500 font-semibold">
-                          Completed
-                        </p>
+                        <div className="flex justify-between items-center gap-2">
+                          <p className="text-green-500 font-semibold">
+                            Completed
+                          </p>
+
+                          <button
+                            onClick={() => handleTaskUncompletion(task._id)}
+                            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                          >
+                            Mark as UnCompleted
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
