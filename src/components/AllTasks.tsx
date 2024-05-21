@@ -2,18 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
-interface Task {
-  _id: string;
-  name: string;
-  description: string;
-  assignee: Assignee;
-}
-
-interface Assignee {
-  _id: string;
-  username: string;
-}
+import { Assignee, Task } from "../types/task";
 
 const AllTasks = () => {
   const navigate = useNavigate();
@@ -52,7 +41,7 @@ const AllTasks = () => {
     fetchUsers();
     fetchTasks();
   }, []);
-
+  console.log(tasks);
   const addTaskAssignee = async (taskId: string, assigneeId: string) => {
     try {
       await axios.patch(
@@ -179,7 +168,7 @@ const AllTasks = () => {
           <ul>
             {tasks.map((task) => (
               <li key={task._id} className="mb-4">
-                <div className="flex flex-wrap justify-start gap-7 lg:justify-between items-center">
+                <div className="flex flex-wrap justify-start gap-7 lg:gap-0 lg:justify-between items-center">
                   <div>
                     <h2 className="text-xl font-semibold">
                       Task Title: {task.name}
@@ -245,7 +234,6 @@ const AllTasks = () => {
                             ...selectedUsers,
                             [task._id]: userId,
                           });
-                          // Send a request to the backend to update the task with the selected user
                         }}
                       >
                         <option value="">Select User</option>
@@ -266,6 +254,11 @@ const AllTasks = () => {
                         Assign Task
                       </button>
                     </div>
+                  )}
+                  {task.completed ? (
+                    <p className="text-green-500 font-semibold">Completed</p>
+                  ) : (
+                    <p className="text-red-500 font-semibold">Unfulfilled</p>
                   )}
                 </div>
               </li>

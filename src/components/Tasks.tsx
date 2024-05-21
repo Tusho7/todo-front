@@ -1,17 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-interface Task {
-  _id: string;
-  name: string;
-  description: string;
-  assignee: Assignee;
-}
-
-interface Assignee {
-  username: string;
-}
+import { Task } from "../types/task";
 
 const Tasks = () => {
   const navigate = useNavigate();
@@ -44,15 +34,65 @@ const Tasks = () => {
     fetchTasks();
   }, [userId, navigate]);
 
+  const handleTaskCompletion = async (taskId: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      await axios.patch(
+        `http://localhost:5000/resources/${taskId}/complete`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTasks(
+        tasks.map((task) =>
+          task._id === taskId ? { ...task, completed: true } : task
+        )
+      );
+    } catch (error) {
+      console.error("Error completing task:", error);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
 
+  const navigateComplete = () => {
+    navigate("/completed-tasks");
+  };
+
+  const navigateUnfulfilled = () => {
+    navigate("/unfulfilled-tasks");
+  };
+
   return (
     <div className="min-h-screen bg-gray-300  flex flex-col justify-center items-center">
       <div className="max-w-3xl w-full bg-white shadow-md rounded-md p-8">
-        <h1 className="text-3xl font-semibold mb-6">My Tasks</h1>
+        <section className="flex justify-between items-center">
+          <h1 className="text-3xl font-semibold mb-6">My Tasks</h1>
+          <h1
+            className="text-3xl font-semibold mb-6"
+            onClick={navigateComplete}
+          >
+            Completed tasks
+          </h1>
+          <h1
+            className="text-3xl font-semibold mb-6"
+            onClick={navigateUnfulfilled}
+          >
+            Unfulfilled Tasks
+          </h1>
+        </section>
+
         <div className="mb-6">
           {tasks.length === 0 ? (
             <p className="text-gray-600 text-lg">
@@ -70,6 +110,21 @@ const Tasks = () => {
                       <p className="text-gray-600">
                         Description: {task.description}
                       </p>
+                    </div>
+                    <div>
+                      {!task.completed && (
+                        <button
+                          onClick={() => handleTaskCompletion(task._id)}
+                          className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                        >
+                          Mark as Completed
+                        </button>
+                      )}
+                      {task.completed && (
+                        <p className="text-green-500 font-semibold">
+                          Completed
+                        </p>
+                      )}
                     </div>
                   </div>
                 </li>
