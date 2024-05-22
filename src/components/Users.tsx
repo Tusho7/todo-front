@@ -36,7 +36,6 @@ const Users = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(userId);
       setUsers(users.filter((user) => user._id !== userId));
       Swal.fire({
         icon: "success",
@@ -125,23 +124,23 @@ const Users = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-300  flex flex-col justify-center items-center">
-      <div className="max-w-3xl w-full bg-white shadow-md rounded-md p-8">
-        <h1 className="text-3xl font-semibold mb-6">Users</h1>
+    <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 flex flex-col justify-center items-center">
+      <div className="max-w-4xl w-full bg-white shadow-xl rounded-lg p-8 animate__animated animate__fadeIn">
+        <h1 className="text-4xl font-bold text-center mb-6">User Management</h1>
         <ul>
           {users.map((user) => (
             <li
               key={user._id}
-              className="mb-4 flex justify-between items-center"
+              className="mb-4 flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow hover:bg-gray-200 transition duration-300 ease-in-out transform hover:scale-105"
             >
               <div>
                 <h2 className="text-xl font-semibold">{user.username}</h2>
                 <p className="text-gray-600">Role: {user.role}</p>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-4">
                 <button
                   onClick={() => deleteUser(user._id)}
-                  className="text-red-500 hover:text-red-600"
+                  className="text-red-500 hover:text-red-600 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
                 >
                   Delete
                 </button>
@@ -162,11 +161,10 @@ const Users = () => {
                       }
                     });
                   }}
-                  className="text-blue-500 hover:text-blue-600"
+                  className="text-blue-500 hover:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
                 >
                   Change Role
                 </button>
-
                 <button
                   onClick={() => {
                     Swal.fire({
@@ -180,7 +178,7 @@ const Users = () => {
                       }
                     });
                   }}
-                  className="text-blue-500 hover:text-blue-600"
+                  className="text-blue-500 hover:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
                 >
                   Change Username
                 </button>
@@ -188,16 +186,16 @@ const Users = () => {
             </li>
           ))}
         </ul>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-6">
           <button
             onClick={seeTasks}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 active:scale-95"
           >
             See Tasks
           </button>
           <button
             onClick={logout}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 active:scale-95"
           >
             Logout
           </button>

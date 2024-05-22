@@ -41,6 +41,7 @@ const AllTasks = () => {
     fetchUsers();
     fetchTasks();
   }, []);
+
   const addTaskAssignee = async (taskId: string, assigneeId: string) => {
     try {
       await axios.patch(
@@ -159,14 +160,18 @@ const AllTasks = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
   return (
-    <div className="min-h-screen bg-gray-300 flex flex-col justify-center items-center">
-      <div className="max-w-3xl w-full bg-white shadow-md rounded-md p-8">
-        <h1 className="text-3xl font-semibold mb-6">All Tasks</h1>
+    <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 flex flex-col justify-center items-center">
+      <div className="max-w-4xl w-full bg-white shadow-xl rounded-lg p-8 animate__animated animate__fadeIn">
+        <h1 className="text-4xl font-bold text-center mb-6">All Tasks</h1>
         <div className="mb-6">
           <ul>
             {tasks.map((task) => (
-              <li key={task._id} className="mb-4">
+              <li
+                key={task._id}
+                className="mb-4 p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition duration-300 ease-in-out transform hover:scale-105"
+              >
                 <div className="flex flex-wrap justify-start gap-7 lg:gap-0 lg:justify-between items-center">
                   <div>
                     <h2 className="text-xl font-semibold">
@@ -180,7 +185,7 @@ const AllTasks = () => {
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => deleteTask(task._id)}
-                      className="text-red-500 hover:text-red-600"
+                      className="text-red-500 hover:text-red-600 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
                     >
                       Delete
                     </button>
@@ -197,7 +202,7 @@ const AllTasks = () => {
                           }
                         });
                       }}
-                      className="text-blue-500 hover:text-blue-600"
+                      className="text-blue-500 hover:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
                     >
                       Edit Title
                     </button>
@@ -214,7 +219,7 @@ const AllTasks = () => {
                           }
                         });
                       }}
-                      className="text-green-500 hover:text-green-600"
+                      className="text-green-500 hover:text-green-600 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
                     >
                       Edit Description
                     </button>
@@ -224,7 +229,7 @@ const AllTasks = () => {
                       User: {task?.assignee?.username}
                     </h1>
                   ) : (
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center">
                       <select
                         value={selectedUsers[task._id] || ""}
                         onChange={(e) => {
@@ -234,6 +239,7 @@ const AllTasks = () => {
                             [task._id]: userId,
                           });
                         }}
+                        className="border border-gray-300 rounded-md p-2"
                       >
                         <option value="">Select User</option>
                         {users.map((user) => (
@@ -248,7 +254,7 @@ const AllTasks = () => {
                           if (selectedUserId)
                             addTaskAssignee(task._id, selectedUserId);
                         }}
-                        className="text-blue-500 hover:text-blue-600"
+                        className="text-blue-500 hover:text-blue-600 ml-2 transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
                       >
                         Assign Task
                       </button>
@@ -264,17 +270,17 @@ const AllTasks = () => {
             ))}
           </ul>
         </div>
-        <section className="flex justify-between">
+        <section className="flex justify-between mt-6">
           <button
             onClick={logout}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 active:scale-95"
           >
             Logout
           </button>
 
           <button
             onClick={() => navigate("/dashboard")}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 active:scale-95"
           >
             Dashboard
           </button>

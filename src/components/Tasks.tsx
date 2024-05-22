@@ -126,22 +126,24 @@ const Tasks = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-300  flex flex-col justify-center items-center">
-      <div className="max-w-3xl w-full bg-white shadow-md rounded-md p-8">
-        <section className="flex justify-between items-center">
-          <h1 className="text-3xl font-semibold mb-6">My Tasks</h1>
-          <h1
-            className="text-3xl font-semibold mb-6 cursor-pointer"
-            onClick={navigateComplete}
-          >
-            Completed tasks
-          </h1>
-          <h1
-            className="text-3xl font-semibold mb-6 cursor-pointer"
-            onClick={navigateUnfulfilled}
-          >
-            Unfulfilled Tasks
-          </h1>
+    <div className="min-h-screen bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600 flex flex-col justify-center items-center">
+      <div className="max-w-3xl w-full bg-white shadow-lg rounded-lg p-8 animate__animated animate__fadeIn">
+        <section className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">My Tasks</h1>
+          <div className="flex space-x-4">
+            <h1
+              className="text-xl font-semibold text-blue-600 cursor-pointer hover:text-blue-800"
+              onClick={navigateComplete}
+            >
+              Completed Tasks
+            </h1>
+            <h1
+              className="text-xl font-semibold text-pink-600 cursor-pointer hover:text-pink-800"
+              onClick={navigateUnfulfilled}
+            >
+              Unfulfilled Tasks
+            </h1>
+          </div>
         </section>
 
         <div className="mb-6">
@@ -152,36 +154,36 @@ const Tasks = () => {
           ) : (
             <ul>
               {tasks.map((task) => (
-                <li key={task._id} className="mb-4">
+                <li
+                  key={task._id}
+                  className="mb-4 p-4 bg-gray-100 rounded-lg shadow-md"
+                >
                   <div className="flex justify-between items-center">
                     <div>
-                      <h2 className="text-xl font-semibold">
-                        Title: {task.name}
+                      <h2 className="text-xl font-bold text-gray-800">
+                        {task.name}
                       </h2>
-                      <p className="text-gray-600">
-                        Description: {task.description}
-                      </p>
+                      <p className="text-gray-600">{task.description}</p>
                     </div>
-                    <div>
+                    <div className="flex items-center space-x-2">
                       {!task.completed && (
                         <button
                           onClick={() => handleTaskCompletion(task._id)}
-                          className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                          className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 transition duration-300"
                         >
                           Mark as Completed
                         </button>
                       )}
                       {task.completed && (
-                        <div className="flex justify-between items-center gap-2">
+                        <div className="flex items-center space-x-2">
                           <p className="text-green-500 font-semibold">
                             Completed
                           </p>
-
                           <button
                             onClick={() => handleTaskUncompletion(task._id)}
-                            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-300"
                           >
-                            Mark as UnCompleted
+                            Mark as Uncompleted
                           </button>
                         </div>
                       )}
@@ -195,7 +197,7 @@ const Tasks = () => {
         <section className="flex justify-between">
           <button
             onClick={logout}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 transition duration-300"
           >
             Logout
           </button>

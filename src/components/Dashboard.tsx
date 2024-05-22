@@ -90,15 +90,15 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-300 flex flex-col justify-center items-center">
-      <div className="max-w-lg w-full bg-white shadow-md rounded-md p-8">
-        <h1 className="text-3xl font-semibold mb-6">Create Task Page</h1>
+    <div className="min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 flex flex-col justify-center items-center">
+      <div className="max-w-lg w-full bg-white shadow-xl rounded-lg p-8 animate__animated animate__fadeIn">
+        <h1 className="text-4xl font-bold text-center mb-6">Create Task</h1>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Task Name Title
+          <label className="block text-gray-700 text-sm font-semibold mb-2">
+            Task Name
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
             type="text"
             placeholder="Enter task title"
             name="name"
@@ -107,11 +107,11 @@ const Dashboard = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 ">
+          <label className="block text-gray-700 text-sm font-semibold mb-2">
             Task Description
           </label>
           <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
             placeholder="Enter description"
             name="description"
             value={resourceData.description}
@@ -119,11 +119,11 @@ const Dashboard = () => {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-gray-700 text-sm font-semibold mb-2">
             Assign To
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
             name="assignee"
             value={resourceData.assignee}
             onChange={handleChange}
@@ -136,28 +136,28 @@ const Dashboard = () => {
             ))}
           </select>
         </div>
-        <div className="grid grid-cols-2 gap-10">
+        <div className="grid grid-cols-2 gap-6">
           <button
             onClick={createResource}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
           >
             Create Task
           </button>
           <button
             onClick={seeTasks}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-green-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
           >
             See Tasks
           </button>
           <button
             onClick={seeUsers}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
           >
             See Users
           </button>
           <button
             onClick={logout}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-700 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
           >
             Logout
           </button>
