@@ -13,6 +13,7 @@ const Dashboard = () => {
     assignee: "",
   });
   const [users, setUsers] = useState<User[]>([]);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -36,6 +37,10 @@ const Dashboard = () => {
   }, []);
 
   const createResource = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/resources",
@@ -73,8 +78,37 @@ const Dashboard = () => {
     }
   };
 
-  const handleChange = (e: any) => {
-    setResourceData({ ...resourceData, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setResourceData({ ...resourceData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const validateForm = () => {
+    const errors: { [key: string]: string } = {};
+    let isValid = true;
+
+    if (!resourceData.name.trim()) {
+      errors.name = "Task name is required";
+      isValid = false;
+    }
+
+    if (!resourceData.description.trim()) {
+      errors.description = "Task description is required";
+      isValid = false;
+    }
+
+    if (!resourceData.assignee) {
+      errors.assignee = "Assignee is required";
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
   };
 
   const logout = () => {
@@ -85,6 +119,7 @@ const Dashboard = () => {
   const seeTasks = () => {
     navigate("/all-tasks");
   };
+
   const seeUsers = () => {
     navigate("/all-users");
   };
@@ -98,32 +133,44 @@ const Dashboard = () => {
             Task Name
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            className={`shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 ${
+              errors.name && "border-red-500"
+            }`}
             type="text"
             placeholder="Enter task title"
             name="name"
             value={resourceData.name}
             onChange={handleChange}
           />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-semibold mb-2">
             Task Description
           </label>
           <textarea
-            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            className={`shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 ${
+              errors.description && "border-red-500"
+            }`}
             placeholder="Enter description"
             name="description"
             value={resourceData.description}
             onChange={handleChange}
           />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+          )}
         </div>
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-semibold mb-2">
             Assign To
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            className={`shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 ${
+              errors.assignee && "border-red-500"
+            }`}
             name="assignee"
             value={resourceData.assignee}
             onChange={handleChange}
@@ -135,6 +182,9 @@ const Dashboard = () => {
               </option>
             ))}
           </select>
+          {errors.assignee && (
+            <p className="text-red-500 text-sm mt-1">{errors.assignee}</p>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-6">
           <button
